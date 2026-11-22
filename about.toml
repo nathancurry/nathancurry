@@ -1,0 +1,93 @@
+# Facts about me that show up on more than one page.
+#
+# Edit this file first, then the pages. check_about.py fails any page that
+# drifts: a missing required fact, a retired phrase, or a lapsed cert named
+# as current. It checks facts, not wording, so each page keeps its own copy.
+# Matching ignores case, Markdown and HTML markup, and curly quotes.
+
+kind = "person"
+name = "Nathan Curry"
+title = "Software Maintenance Engineer"
+team = "OpenShift Enhanced Solution Support"
+employer = "Red Hat"
+
+# First person, for my own pages.
+one_liner = "I build bounded AI systems that keep data on hardware I control and send models only redacted, minimal context."
+
+# Third person, for lowmagic's pages.
+org_tagline = "Bounded AI systems and diagnostic tools by Nathan Curry"
+
+# Certs I hold now. A page may list these.
+certs_current = [
+  "Red Hat Certified Engineer",
+  "Red Hat Certified OpenShift Administrator",
+  "Red Hat Certified Specialist in Containers",
+]
+
+# Lapsed. Only a page with allow_previous_certs = true may name these, and it
+# must say they're previously held.
+certs_previous = [
+  "Red Hat Certified Architect",
+  "Security+",
+  "Terraform Associate",
+  "Public Trust",
+]
+
+# Phrases that were true once, or never were. No page may use them.
+retired = [
+  "local-first",                              # compa, Idea Machine and Hypertrace call hosted models
+  "junglestyle",                              # org renamed to lowmagic
+  "Senior Technical Support Engineer, Redis", # HR title was Technical Support Engineer
+]
+
+# Verified titles and dates (HR and LinkedIn). A page with check_roles = true
+# must show "<employer> | <start>" for each, which is the resume's format.
+[[roles]]
+employer = "Red Hat"
+title = "Software Maintenance Engineer"
+start = "06/2024"
+
+[[roles]]
+employer = "Redis"
+title = "Technical Support Engineer"
+start = "08/2021"
+end = "09/2022"
+
+[links]
+site = "https://nathancurry.com"
+showcase = "https://lowmag.cc"
+github = "https://github.com/lowmagic"
+linkedin = "https://www.linkedin.com/in/nathandcurry"
+
+# Pages to check. `require` names keys above whose values must appear on the
+# page; a list key requires every item. `ref` defaults to main.
+
+[pages.github-profile]
+repo = "nathancurry/nathancurry"
+path = "README.md"
+require = ["title", "team", "one_liner"]
+
+[pages.site]
+repo = "nathancurry/nathancurry.github.io"
+ref = "master"
+path = "index.md"
+require = ["title", "team", "one_liner"]
+
+[pages.lowmag-cc]
+repo = "lowmagic/lowmagic.github.io"
+path = "index.html"
+require = ["org_tagline"]
+
+[pages.lowmagic-profile]
+repo = "lowmagic/.github"
+path = "profile/README.md"
+require = ["org_tagline", "title", "team"]
+
+# Private: not fetched here. The resumes repo runs this check in build.py.
+[pages.resume]
+repo = "nathancurry/resumes"
+path = "base/resume.md"
+private = true
+require = ["title", "certs_current"]
+allow_previous_certs = true
+check_roles = true

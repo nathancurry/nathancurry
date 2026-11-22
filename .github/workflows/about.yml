@@ -1,0 +1,25 @@
+name: about
+
+# Fails when a page about me drifts from about.toml. Runs on changes here and
+# daily, so an edit made straight on another repo still gets caught.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # This repo's README is checked from the checkout; the rest are fetched.
+      - run: python3 check_about.py --page github-profile=README.md
